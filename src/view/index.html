@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="http://swftg.37.com/js/module/ancc/css/index.min.css" rel="stylesheet"/>
+</head>
+<body style="height:600px;">
+<div id="Stage" class="stage" style="width:1400px;height:600px;">
+    <div id="app">
+    </div>
+    <div>
+        <input type="hidden" id="login_account"/>
+        <input type="text" id="uname" class="input-control"/>
+        <span id="unameNotice" class="notice-control">4-20个字符，由字母或数字组成</span>
+        <input type="password" id="password" class="input-control"/>
+        <span id="passwordNotice" class="notice-control"> 长度6~20个字符</span>
+        <input type="password" id="confirmPassword" class="input-control"/>
+        <span id="confirmPasswordNotice" class="notice-control">两次输入的密码请保持一致</span>
+        <div id="agree" class="agreeWrap">
+            <input type="checkbox" checked id="agreeCheck"/>
+            <span id="agreeText" href="#" class="text">我已经阅读并同意《用户注册协议》</span>
+        </div>
+        <button id="play">登录</button>
+    </div>
+    <!--验证码-->
+    <div id="box-validation">
+        <a class="addbg val-pop-close" href="javascript:;"  id="val-pop-close-bg"></a>
+        <div id="validation_title"> 输入验证码完成注册，立即畅玩游戏</div>
+        <div class="validation-cont">
+            <span class="v-c-sp0">
+                <img id="validation_img" onclick="this.src='http://regapi.37.com/code.php?t=' + Math.random()">
+                <em>看不清，换一张</em>
+            </span>
+            <span class="v-c-sp1">
+                <em>请输入验证码</em>
+                <input type="text" id="check-code" class="inp"  placeholder="">
+            </span>
+        </div>
+        <div class="validation-submit">
+            <a href="javascript:;" id="validation_register" onclick="javascript:verifyRegister();return false;">确认</a>
+        </div>
+    </div>
+    <div id="box-form-noflash">
+        <div id="form-noflash">
+            <div class="form-group">
+                <label class="form-group-label">
+                    用户名：
+                </label>
+                <input type="text" class="form-group-input" id="form-noflash-uname"/>
+                <span class="icon_inp user"></span>
+                <div class="form-group-tips" id="form-noflash-uname-tips">
+                    4-20个字符，由字母或数字组成
+                </div>
+
+            </div>
+            <div class="form-group">
+                <label class="form-group-label">
+                    登录密码：
+                </label>
+                <input type="password" class="form-group-input" id="form-noflash-pwd"/>
+                <span class="icon_inp pwd"></span>
+                <div class="form-group-tips" id="form-noflash-pwd-tips">
+                    长度6~20个字符
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-group-label">
+                    重复密码：
+                </label>
+                <input type="password" class="form-group-input" id="form-noflash-pwd-again"/>
+                <span class="icon_inp pwd"></span>
+                <div class="form-group-tips" id="form-noflash-pwd-again-tips">
+                    两次输入的密码请保持一致
+                </div>
+            </div>
+            <div class="form-group">
+                <button id="form-noflash-play"></button>
+            </div>
+            <div class="form-group">
+                <input type="checkbox" checked="" id="form-noflash-agreeCheck">
+                <span id="form-noflash-agreeText" href="#" class="text">我已经阅读并同意《用户注册协议》</span>
+            </div>
+            <div class="box-other-box">
+                <p class="p_reg_tit">使用其他帐号登录</p>
+                <div class="icon_wrap">
+                    <a href="javascript:;" class="a_reg_qq" onclick="registerWinopen('qq')"></a>
+                    <a href="javascript:;" class="a_reg_wx" onclick="registerWinopen('wechat')"></a>
+                    <a href="javascript:;" class="a_reg_wb" onclick="registerWinopen('weibo')"></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" charset="utf-8" src="http://swftg.37.com/api/c.php?platform_id=1&union_id=1479&union_type=7&link_id=63487"></script>
+<script type="text/javascript">
+
+
+    //标题是否闪动
+    var flash_tit = {
+        step: 0,
+        flag: true,
+        space: ''
+    };
+    //标题是否闪动
+
+    //是否有icp
+    var icp_flag={
+        flag:false,
+        text:""
+    }
+    //是否有icp
+
+    //点击统计回调统计
+    var tj_click={
+        flag:false,
+        url:""
+    }
+
+    //是否免二登
+    var free_twice={
+        flag:false,
+        enter_game:false
+    };
+    //是true否免二登
+
+    //是否有退弹
+    var isPopWin={
+        flag:false,
+        url:"" ,    //退弹地址
+        type:2,                       //有2种退弹方式，1:旧的的退弹方式；2：有conform框的退弹方式。
+        text:""
+    };
+
+    //注册是否带验证码规则
+    var is_vali_flag=true;
+
+    //到达回调
+    var tj_reach={
+        flag:false,
+        url:""
+    };
+
+    //注册成功回调
+    var tj_success={
+        flag:false,
+        url:''
+    }
+
+    //公共浮层
+    var new_iframe={
+        flag:false,
+        width:800,
+        height:600,
+        src:"",
+        show:'click'         // reach：到达时展现浮层；click:点击时展现浮层；success:注册成功时展现浮层
+    }
+
+    //右下角有游戏小盒子
+    var game_box={
+        flag:false,
+        src:"",                    //flash 地址
+        url:"",  //游戏盒子下载地址
+        api:'',             //统计api
+        width:148,
+        height:167
+    }
+
+    //当没有安装flash时注册成功后弹出游戏盒子的下载地址。
+    var url_dl='http://d.wanyouxi7.com/yx/gamebox/mbhztszy/mir/gamebox.exe';
+
+    //禁用flash时refer,
+    var flash_param={
+        referer_param:'referer', //uid:referer_param=encodeURIComponent(uid);referer:referer_param=encodeURIComponent(referer);
+        referer:'mbhztszy'            //有2个值  一个为'',另一个为字符串 ;
+
+    }
+    var user_referer='';
+    //禁用flash加统计
+    var tj_noflash_url='http://g.pp6l.com/direct_media/call_back?/cb/1/2244/51807.html?uid='+gconfig.referer;
+
+    //禁用flash注册框出现时加统计
+    var tj_noflash_regbox='http://log.he2d.com/s/1/2244/51807/3.js?uid='+gconfig.referer;
+
+</script>
+<script>
+    var logDomain="log.he2d.com2.js";
+    var httpsCheckUrl="https://regapi.37.com/no-delete.js";
+    var adUrl="./ad";
+</script>
+</body>
+</html>
