@@ -1,11 +1,11 @@
 /**
  * 用于JSONP请求
  **/
-import Try from "../util/try.js"
+import {Try} from "../util/try.js"
 
 var tid=0;
 var mapEvent={};
-export default{
+export var CallBack={
     getTid:function(){
         tid++;
         return tid;
@@ -62,5 +62,10 @@ export default{
             }
         })
 
+    },
+    doImg:function(src){
+        var img=new Image();
+        img.src=(src.indexOf('?') > 0 ? (src + '&' + Math.random()) : (src + '?'+ Math.random()));
     }
 }
+export var Callback=CallBack;

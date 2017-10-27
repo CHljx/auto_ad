@@ -8,8 +8,11 @@ for(var index=0,len=searchParams.length;index<len;index++){
     query[param[0]]=param[1]
 }
 
-export default {
+export var Param= {
     getParam:function(key){
         return query[key]||""
+    },
+    getParamUrl:function(key,url){
+
     }
 };

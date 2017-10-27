@@ -1,24 +1,20 @@
-import Statis from "../util/statis";
-var LifeCycle={
+import {Static as Statis} from "../util/statis";
+var event={};
+export var LifeCycle={
+    add:function(cycle,fn){
+        if(!event[cycle]){
+            event[cycle]=[];
+        }
+        event[cycle].push(fn);
+    },
     trigger:function(cycle){
         console.log("lifeCycle",cycle,new Date().getTime());
-        this[cycle]();
-    },
-    load:function(){
-        Statis.doStatic("load")
-    },
-    beforeAdLoad:function(){
-        Statis.doStatic("beforeAdLoad")
-    },
-    adLoadEnd:function(){
-        Statis.doStatic("adLoadEnd")
-    },
-    registShow:function(){
-        Statis.doStatic("registShow")
-    },
-    registEnd:function(){
-        Statis.doStatic("registEnd")
+        this[cycle]&&this[cycle]();
+        Statis.doStatic(cycle)
+        if(event[cycle]){
+            for(var index =0,len=event[cycle].length;index<len;index++){
+                event[cycle][index]()
+            }
+        }
     }
 };
-
-export default LifeCycle;

@@ -2,12 +2,12 @@ var gulp=require("gulp"),
 	webserver = require('gulp-webserver');
 
 gulp.task("server",function(){
-	  gulp.src( './dist/' ) // ·þÎñÆ÷Ä¿Â¼£¨./´ú±í¸ùÄ¿Â¼£©
-        .pipe(webserver({ // ÔËÐÐgulp-webserver
-           // livereload: true, // ÆôÓÃLiveReload
+	  gulp.src( './dest/' ) // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¿Â¼ï¿½ï¿½./ï¿½ï¿½ï¿½ï¿½ï¿½Ä¿Â¼ï¿½ï¿½
+        .pipe(webserver({ // ï¿½ï¿½ï¿½ï¿½gulp-webserver
+           // livereload: true, // ï¿½ï¿½ï¿½ï¿½LiveReload
 			//root:'./',
 		    //host:'ljx.h5.com',
 			port:8888,
-            open: true // ·þÎñÆ÷Æô¶¯Ê±×Ô¶¯´ò¿ªÍøÒ³
+            open: true // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½Ô¶ï¿½ï¿½ï¿½ï¿½ï¿½Ò³
         }));
 })

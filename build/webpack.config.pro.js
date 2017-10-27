@@ -1,16 +1,10 @@
 var HtmlWebpackPlugin=require("html-webpack-plugin"),
-    OpenBrowserWebpackPlugin=require("open-browser-webpack-plugin"),
     ExtractTextWebpackPlugin=require("extract-text-webpack-plugin"),
     path=require("path"),
     webpack=require("webpack");
 module.exports={
     entry:{
         index:"./src/js/entry.js"
-    },
-    devtool: "cheap-source-map",
-    devServer:{
-        inline:true,
-        port:80
     },
     output:{
         path:path.resolve(__dirname,"..","dest"),
@@ -46,12 +40,16 @@ module.exports={
             title:"广告模板",
             template:"./src/view/index.html"
         }),
-        new OpenBrowserWebpackPlugin({
-            url:"http://localhost"
-        }),
         new ExtractTextWebpackPlugin("assets/css/index.min.css"),
         new webpack.DefinePlugin({
             DOMAIN:JSON.stringify("http://uad3.369.com")
+        }),
+        new webpack.optimize.UglifyJsPlugin({
+            compress:{
+                warnings: false,
+                drop_debugger: true,
+                drop_console: true
+            }
         })
     ]
 }

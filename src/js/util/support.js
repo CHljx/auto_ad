@@ -1,4 +1,4 @@
-export default{
+export var Support={
     supportCanvas:(function(){
         return false;
         if(document.createElement("canvas").getContext){
