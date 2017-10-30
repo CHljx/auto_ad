@@ -13,7 +13,9 @@ Global.addGlobalFn("stage",null);
 Global.addGlobalFn("playSound",function(t,e){
     return createjs.Sound.play(t, createjs.Sound.INTERRUPT_EARLY, 0, 0, e)
 });
-Global.addGlobalFn("openDiv",App.openRegist);
+Global.addGlobalFn("openDiv",function(){
+    App.openRegist();
+});
 Global.addGlobalFn("$",function(sId){
     return document.getElementById(sId)
 })
@@ -22,6 +24,9 @@ Global.addGlobalFn("registerWinopen",function(oType){
 })
 Global.addGlobalFn("winopenRegisterCallBack",function(url){
    App.doRegistInter(url)
+});
+Global.addGlobalFn("registerCallBack",function(url){
+    App.doRegistUrl(url)
 });
 Global.addGlobalFn("bodyLoad",function(){
 

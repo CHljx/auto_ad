@@ -49,7 +49,6 @@
 <script type="text/javascript" charset="utf-8" src="http://swftg.37.com/api/c.php?platform_id=1&union_id=1479&union_type=7&link_id=63487"></script>
 <script type="text/javascript">
 
-
     //标题是否闪动
     var flash_tit = {
         step: 0,
@@ -60,8 +59,8 @@
 
     //是否有icp
     var icp_flag={
-        flag:true,
-        text:"12312312"
+        flag:false,
+        text:""
     }
     //是否有icp
 
@@ -73,22 +72,21 @@
 
     //是否免二登
     var free_twice={
-        flag:false,
-        enter_game:false,
-        new_free:false
+        flag:true,
+        enter_game:false
     };
     //是true否免二登
 
     //是否有退弹
     var isPopWin={
         flag:true,
-        url:"http://www.baidu.com" ,    //退弹地址
+        url: "http://bdtg.37wan.com/s/1/2247/51676.html?uid="+gconfig.referer+"&gid="+gconfig.game_id+"&sid="+gconfig.game_server_id ,    //退弹地址
         type:2,                       //有2种退弹方式，1:旧的的退弹方式；2：有conform框的退弹方式。
-        text:""
+        text:"既然来了，抽个奖吧！998元游戏礼包、绝版神装、现金大奖等丰富奖励，100%中奖率！"
     };
 
     //注册是否带验证码规则
-    var is_vali_flag=false;
+    var is_vali_flag=true;
 
     //到达回调
     var tj_reach={
@@ -102,11 +100,6 @@
         url:''
     }
 
-    var autoOpenDiv={
-        autoOpen:true,
-        autoOpenFlag:true
-    }
-
     //公共浮层
     var new_iframe={
         flag:false,
@@ -118,12 +111,12 @@
 
     //右下角有游戏小盒子
     var game_box={
-        flag:false,
-        src:"",                    //flash 地址
-        url:"",  //游戏盒子下载地址
+        flag:true,
+        src:"http://kwcdn.000dn.com/images/gamebox_920.swf?ver=3",                    //flash 地址
+        url:"http://d.wanyouxi7.com/yx/gamebox/baidu_tt/mir/37gamebox.exe",  //游戏盒子下载地址
         api:'',             //统计api
-        width:148,
-        height:167
+        width:118,
+        height:134
     }
 
     //当没有安装flash时注册成功后弹出游戏盒子的下载地址。
@@ -138,9 +131,10 @@
     var user_referer='';
     //禁用flash加统计
     var tj_noflash_url='http://g.pp6l.com/direct_media/call_back?/cb/1/2244/51807.html?uid='+gconfig.referer;
-
     //禁用flash注册框出现时加统计
     var tj_noflash_regbox='http://log.he2d.com/s/1/2244/51807/3.js?uid='+gconfig.referer;
+
+
 
 </script>
 <script>

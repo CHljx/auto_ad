@@ -18,7 +18,7 @@ import {Checker} from "../util/checker";
 import {Try} from "../util/try";
 
 var identifyingFlag=false;
-
+var isFree=false;
 
 export var App={
     data:{
@@ -292,7 +292,10 @@ export var App={
     doRegistHttps:function(url,fn){
         var _self = this;
         _self.openWin();
-        AdLoader.showTips('<font color="#008000">请稍后...</font>');
+        if(!isFree){
+            AdLoader.showTips('<font color="#008000">请稍后...</font>');
+        }
+
         CallBack.doReq(url,function(oRep) {
             Try(function(){
                 fn&&fn(oRep);
@@ -308,20 +311,24 @@ export var App={
                         _self.closeWin();
                         Identifying.open();
                         identifyingFlag=true;
+                        isFree&&(window._loginClick=0);
                         break;
                     case 7:
                         _self.closeWin();
                         Identifying.open();
                         Identifying.showTips("验证码错误");
                         identifyingFlag=true;
+                        isFree&&(window._loginClick=0);
                         break;
                     default:
                         _self.closeWin();
-                        identifyingFlag&&Identifying.showTips(oRep.message);
-                        identifyingFlag&&Identifying.refreshImg();
-                        AdLoader.showTips('<font color="#FF0000">' + oRep.message + '</font>');
+                        !isFree&&identifyingFlag&&Identifying.showTips(oRep.message);
+                        !isFree&&identifyingFlag&&Identifying.refreshImg();
+                        !isFree&&AdLoader.showTips('<font color="#FF0000">' + oRep.message + '</font>');
+                        isFree&&(window._loginClick=0);
                         break;
                 }
+                isFree=false;
             })
         });
     },
@@ -345,6 +352,49 @@ export var App={
         }
         if (data.success == 100 || data.success == 101 || data.success == 102) {
             CallBack.doImg("//log.he2d.com/direct_media/call_back?/cb/1/2255/52571.html?uid=" + data.authtType);
+        }
+    },
+    doRegistUrl:function(url){
+        var _self = this;
+        var data = {};
+        if(!isFree){
+            AdLoader.showTips('<font color="#008000">请稍后...</font>');
+        }
+        data.success = getParamUrl("e", url);
+        data.authtType = getParamUrl("auth_type", url);
+        data.url = decodeURIComponent(getParamUrl("gameweburl", url));
+        data.message = decodeURIComponent(getParamUrl("message", url));
+        data.game_id=getParamUrl("game_id", url);
+        data.game_server_id=getParamUrl("game_server_id", url);
+        _self.data.account=decodeURIComponent(getParamUrl("LOGIN_ACCOUNT", url));
+        _self.registStatic(data.success, "p_register_v3");
+        _self.openWin();
+        switch (parseInt(data.success)) {
+            case 0:
+                LifeCycle.trigger("registed");
+                _self.data.returnGameId=data.game_id?data.game_id:gconfig.game_id;
+                _self.data.returnServerId=data.game_server_id?data.game_server_id: gconfig.game_server_id;
+                Cookies.set('pusername', _self.data.account, 365);
+                _self.registSuccess(data.url);
+                break;
+            case 8:
+                _self.closeWin();
+                Identifying.open();
+                identifyingFlag=true;
+                break;
+            case 7:
+                _self.closeWin();
+                Identifying.open();
+                Identifying.showTips("验证码错误");
+                identifyingFlag=true;
+                break;
+            default:
+                _self.closeWin();
+                !isFree&&identifyingFlag&&Identifying.showTips(oRep.message);
+                !isFree&&identifyingFlag&&Identifying.refreshImg();
+                !isFree&&AdLoader.showTips('<font color="#FF0000">' + oRep.message + '</font>');
+                isFree&&(window._loginClick=0);
+                break;
         }
     },
     registSuccess:function(gameUrl){
@@ -390,20 +440,25 @@ export var App={
     },
     freeLogin:function(){
         var _self = this;
-        _self.doRegistHttps(http+ "://" + platformDomain + "/api/p_register_login.php?ab_param=" + encodeURIComponent(gconfig.ad_param) +
-            "&referer=" + _self.data.temrefer +
-            "&referer_param=" + _self.data.tempara +
-            "&bid=" + encodeURIComponent(bid) +
-            "&lid=" + encodeURIComponent(lid) +
-            "&game_id=" + gconfig.game_id +
-            "&game_server_id=" + gconfig.game_server_id +
-            "&wd=" + getwd() +
-            "&ab_type=" + ab_type +
-            "&tj_from=220"+
-            "&tj_way=4"+
-            "&ext=" + ext,function(oRep){
+        if(window._loginName && !window._loginClick){
+            _self.registStatic(-1,'p_register_login');
+            window._loginClick=1;
+            _self.doRegistHttps(http+ "://" + platformDomain + "/api/p_register_login.php?ab_param=" + encodeURIComponent(gconfig.ad_param) +
+                "&referer=" + _self.data.temrefer +
+                "&referer_param=" + _self.data.tempara +
+                "&bid=" + encodeURIComponent(bid) +
+                "&lid=" + encodeURIComponent(lid) +
+                "&game_id=" + gconfig.game_id +
+                "&game_server_id=" + gconfig.game_server_id +
+                "&wd=" + getwd() +
+                "&ab_type=" + ab_type +
+                "&tj_from=220"+
+                "&tj_way=4"+
+                "&ext=" + ext,function(oRep){
                 _self.registStatic(oRep.success,'p_register_login')
             })
+        }
+
     },
     openWin:function(){
         var _self=this;

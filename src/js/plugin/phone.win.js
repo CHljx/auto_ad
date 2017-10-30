@@ -12,16 +12,15 @@ export var PhoneWin={
             _self.addRegBox();
             _self.bindEvent();
             Global.addGlobalFn("phoneMsgCallback",function(data){
-                var $pt=$$('phone_tips');
                 App.openWin();
                 if (data.success == 0) {
-                    App.data.returnGameId=oRep.game_id?oRep.game_id:gconfig.game_id;
-                    App.data.returnServerId=oRep.game_server_id?oRep.game_server_id: gconfig.game_server_id;
+                    App.data.returnGameId=data.game_id?data.game_id:gconfig.game_id;
+                    App.data.returnServerId=data.game_server_id?data.game_server_id: gconfig.game_server_id;
                     App.registSuccess(data.url);
                 }
                 else{
-                    $pt.innerHTML=data.message;
-                    $pt.className='phone_tips warm';
+                    _self.el.tips.className='phone_tips warm';
+                    _self.el.tips.innerHTML=data.message;
                 }
             });
             Global.addGlobalFn("phoneValidCallback",function(res){

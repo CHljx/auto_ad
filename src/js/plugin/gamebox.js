@@ -16,7 +16,9 @@ export var GameBox={
             '        <param name="quality" value="high">',
             '        <param name="bgcolor" value="#000000">',
             '        <param name="wmode" value="transparent">',
-            '        <embed src="' + game_box.src + '" quality="high" bgcolor="#000000" width="' + game_box.width + '" height="' + game_box.height + '" name="game" align="middle" allowscriptaccess="sameDomain" type="application/x-shockwave-flash" pluginspage="//www.macromedia.com/go/getflashplayer" wmode="transparent">',
+            '        <param name="play" value="true">',
+            '        <param name="autostart" value="true">',
+            '        <embed src="' + game_box.src + '" autostart="true" quality="high" play="true" bgcolor="#000000" width="' + game_box.width + '" height="' + game_box.height + '" name="game" align="middle" allowscriptaccess="sameDomain" type="application/x-shockwave-flash" pluginspage="//www.macromedia.com/go/getflashplayer" wmode="transparent">',
             '    </object>'
         ].join("");
         document.body.appendChild($div);

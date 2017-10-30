@@ -14,6 +14,7 @@ export var FreeLogin={
                     Global.addGlobalFn("_loginName",n);
                     Global.addGlobalFn("_loginUrl",u);
                     Global.addGlobalFn("_loginTime",t);
+                    Global.addGlobalFn("_loginClick",0)
                 })
                 CallBack.doScript("//" + gconfig.status_login_domain + "/api/login.php?action=status&game_id=" + gconfig.game_id + "&server_id=" + gconfig.game_server_id + "&callback=freeStatus");
             }

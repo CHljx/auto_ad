@@ -145,6 +145,9 @@ export var AnccLoader={
         loader.installPlugin(createjs.Sound);
         loader.addEventListener("fileload", _self.handleFileLoad);
         loader.addEventListener("complete", _self.handleComplete);
+        for(var index=0,len=lib.properties.manifest;index<len;index++){
+            lib.properties.manifest[index]["src"]=encodeURI(lib.properties.manifest[index]["src"])
+        }
         loader.loadManifest(lib.properties.manifest,true);;
     },
     handleFileLoad:function(evt){
