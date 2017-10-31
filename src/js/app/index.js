@@ -129,6 +129,7 @@ export var App={
 
         if (window.free_twice&&free_twice.flag && !free_twice.enter_game) {
             if ((window.new_iframe&&new_iframe.flag && new_iframe.show != 'click') || !new_iframe.flag) {
+                isFree=true;
                 _self.freeLogin();
             }
         }
@@ -278,10 +279,10 @@ export var App={
         ePwd.setAttribute('name', "password");
         ePwd.setAttribute('value', _self.data.pwd);
         var eCode=document.createElement("input");
-        ePwd.setAttribute('type', 'hidden');
-        ePwd.setAttribute('id', "verify_code");
-        ePwd.setAttribute('name', "verify_code");
-        ePwd.setAttribute('value', _self.data.verifyCode);
+        eCode.setAttribute('type', 'hidden');
+        eCode.setAttribute('id', "verify_code");
+        eCode.setAttribute('name', "verify_code");
+        eCode.setAttribute('value', _self.data.verifyCode);
 
         _postForm.appendChild(eAccount);
         _postForm.appendChild(ePwd);
@@ -360,13 +361,11 @@ export var App={
         if(!isFree){
             AdLoader.showTips('<font color="#008000">请稍后...</font>');
         }
-        data.success = getParamUrl("e", url);
-        data.authtType = getParamUrl("auth_type", url);
-        data.url = decodeURIComponent(getParamUrl("gameweburl", url));
+        data.success = getParamUrl("success", url);
+        data.url = decodeURIComponent(getParamUrl("url", url));
         data.message = decodeURIComponent(getParamUrl("message", url));
         data.game_id=getParamUrl("game_id", url);
         data.game_server_id=getParamUrl("game_server_id", url);
-        _self.data.account=decodeURIComponent(getParamUrl("LOGIN_ACCOUNT", url));
         _self.registStatic(data.success, "p_register_v3");
         _self.openWin();
         switch (parseInt(data.success)) {
@@ -390,9 +389,9 @@ export var App={
                 break;
             default:
                 _self.closeWin();
-                !isFree&&identifyingFlag&&Identifying.showTips(oRep.message);
+                !isFree&&identifyingFlag&&Identifying.showTips(data.message);
                 !isFree&&identifyingFlag&&Identifying.refreshImg();
-                !isFree&&AdLoader.showTips('<font color="#FF0000">' + oRep.message + '</font>');
+                !isFree&&AdLoader.showTips('<font color="#FF0000">' + data.message + '</font>');
                 isFree&&(window._loginClick=0);
                 break;
         }

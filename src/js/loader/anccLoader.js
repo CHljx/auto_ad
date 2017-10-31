@@ -21,7 +21,7 @@ export var AnccLoader={
         _self.addGlobalFn();
         _self.addRegBox();
         _self.bindEvent();
-        CallBack.doScript("http://p.gm99.com/ancc/js/lib/createjs/createjs.min.js?v=1",function(){
+        CallBack.doScript("http://kwcdn.000dn.com/js/module/ancc/libs/createjs/createjs.min.js",function(){
             CallBack.doScript(gconfig.flash_path +"index.js",function(){
                 _self.loadANCC();
             })
@@ -145,7 +145,7 @@ export var AnccLoader={
         loader.installPlugin(createjs.Sound);
         loader.addEventListener("fileload", _self.handleFileLoad);
         loader.addEventListener("complete", _self.handleComplete);
-        for(var index=0,len=lib.properties.manifest;index<len;index++){
+        for(var index=0,len=lib.properties.manifest.length;index<len;index++){
             lib.properties.manifest[index]["src"]=encodeURI(lib.properties.manifest[index]["src"])
         }
         loader.loadManifest(lib.properties.manifest,true);;

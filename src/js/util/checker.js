@@ -21,7 +21,7 @@ export var Checker= {
         }
     })(),
     supportCanvas:(function(){
-        if(document.createElement("canvas").getContext){
+        if(document.createElement("canvas").getContext&&!navigator.userAgent.match(/MSIE 9/)){
             return true;
         }else {
             return false;
